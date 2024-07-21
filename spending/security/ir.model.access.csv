@@ -1,0 +1,3 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_spending_categories","Spending categories access","model_spending_categories","base.group_user",1,1,1,1
+"access_spending_accounts","Spending accounts access","model_spending_accounts","base.group_user",1,1,1,1

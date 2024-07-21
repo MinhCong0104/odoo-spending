@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <menuitem name="Spending"
+            id="menu_root_spending"
+            action="action_view_spending_categories"
+            web_icon="spending,static/description/icon.png"
+            sequence="5"
+        />
+
+        <menuitem name="Spending"
+            id="menu_spending_spending"
+            action="action_view_spending_categories"
+            parent="menu_root_spending"
+            sequence="5"
+        />
+
+        <menuitem name="Accounts"
+            id="menu_spending_account"
+            action="action_view_spending_accounts"
+            parent="menu_root_spending"
+            sequence="5"
+        />
+    </data>
+</odoo>
+
+<!--            groups="base.group_user"-->
