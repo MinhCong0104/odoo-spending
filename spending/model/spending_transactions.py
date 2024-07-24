@@ -15,7 +15,9 @@ class Transactions(models.Model):
 
     name = fields.Char(translate=True, required=True)
     amount = fields.Float(required=True)
+    type = fields.Selection()
     category_id = fields.Many2one('spending.categories')
     from_account = fields.Many2one('spending.accounts')
+    to_account = fields.Many2one('spending.accounts')
     note = fields.Char()
     user_id = fields.Many2one('res.users', readonly=True)
