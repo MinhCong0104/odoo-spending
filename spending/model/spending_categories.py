@@ -4,11 +4,10 @@
 import logging
 
 from odoo import api, fields, models, _
+TYPE = [('spend', 'Spend'), ('income', 'Income'), ('save', 'Save')]
 
 
 _logger = logging.getLogger(__name__)
-
-TYPE = [('spend', 'Spend'), ('income', 'Income'), ('save', 'Save')]
 
 
 class Categories(models.Model):

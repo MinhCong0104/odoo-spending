@@ -10,8 +10,12 @@
     'depends': [],
     'data': [
         "security/ir.model.access.csv",
+
         "views/spending_categories_views.xml",
         "views/spending_accounts_views.xml",
+        "views/spending_limit_views.xml",
+        "views/spending_transactions_views.xml",
+
         "views/spending_menus.xml",
     ],
     # 'bootstrap': True,
