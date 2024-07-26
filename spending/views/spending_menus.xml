@@ -3,7 +3,7 @@
     <data>
         <menuitem name="Spending"
             id="menu_root_spending"
-            action="action_view_spending_categories"
+            action="action_view_spending_transactions"
             web_icon="spending,static/description/icon.png"
             sequence="5"
         />
@@ -31,7 +31,7 @@
 
         <menuitem name="Categories                                                                                                                                                                                                                                                                                                                                                                       "
             id="menu_spending_categories"
-            action="action_view_spending_accounts"
+            action="action_view_spending_categories"
             parent="menu_root_spending"
             sequence="5"
         />
