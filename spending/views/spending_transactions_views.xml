@@ -15,8 +15,8 @@
                                 <field name="amount"/>
                                 <field name="type"/>
                                 <field name="category_id"/>
-                                <field name="from_account"/>
-                                <field name="to_account"/>
+                                <field name="from_account" invisible="type == 'income'" required="type != 'income'"/>
+                                <field name="to_account" invisible="type == 'spend'" required="type != 'spend'"/>
                                 <field name="user_id" readonly="1"/>
                             </group>
                         </group>

@@ -30,6 +30,8 @@ class Accounts(models.Model):
     amount = fields.Float(required=True, default=0)
     is_save = fields.Boolean(default=False, help="This account is use for saving. "
                                                  "You can use regular bank account as savings account.")
+    transaction_in = fields.One2many()
+    transaction_out = fields.One2many()
     note = fields.Char()
     user_id = fields.Many2one('res.users')
 
