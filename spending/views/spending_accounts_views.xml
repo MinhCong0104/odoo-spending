@@ -13,9 +13,7 @@
                             <group>
                                 <field name="name"/>
                                 <field name="amount"/>
-                                <field name="withdrew"/>
-                                <field name="subtotal"/>
-                                <field name="date_finish"/>
+                                <field name="is_save"/>
                                 <field name="user_id" readonly="1"/>
                             </group>
                         </group>
@@ -38,9 +36,7 @@
                 <tree string="Accounts">
                     <field name="name"/>
                     <field name="amount"/>
-                    <field name="withdrew"/>
-                    <field name="subtotal"/>
-                    <field name="date_finish"/>
+                    <field name="is_save"/>
                 </tree>
             </field>
         </record>
