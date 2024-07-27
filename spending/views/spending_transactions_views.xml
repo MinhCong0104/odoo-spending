@@ -11,8 +11,8 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
-                                <field name="amount"/>
+                                <field name="date"/>
+                                <field name="amount" required="1"/>
                                 <field name="type"/>
                                 <field name="category_id"/>
                                 <field name="from_account" invisible="type == 'income'" required="type != 'income'"/>

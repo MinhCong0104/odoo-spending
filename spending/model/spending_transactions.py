@@ -13,7 +13,7 @@ class Transactions(models.Model):
     _name = 'spending.transactions'
     _description = 'Spending Transactions'
 
-    name = fields.Char(translate=True, required=True)
+    date = fields.Date(default=fields.Date.today(), required=True)
     amount = fields.Float(required=True)
     type = fields.Selection(TYPE, required=True)
     purpose = fields.Selection([('transaction', 'Transaction'), ('save', 'Save'), ('invest', 'Invest')])
