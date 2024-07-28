@@ -27,13 +27,19 @@ class Accounts(models.Model):
     _description = 'Spending Accounts'
 
     name = fields.Char(translate=True, required=True)
-    amount = fields.Float(required=True, default=0)
+    amount_first = fields.Float(required=True, readonly=True, default=0)
+    amount = fields.Float(compute='_compute_amount')
     is_save = fields.Boolean(default=False, help="This account is use for saving. "
                                                  "You can use regular bank account as savings account.")
-    transaction_in = fields.One2many()
-    transaction_out = fields.One2many()
+    transactions_in = fields.One2many('spending.transactions', 'to_account')
+    transactions_out = fields.One2many('spending.transactions', 'from_account')
     note = fields.Char()
     user_id = fields.Many2one('res.users')
+
+    @api.depends('transactions_in', 'transactions_out')
+    def _compute_amount(self):
+        for rec in self:
+            rec.amount = rec.amount_first + sum(rec.transactions_in.mapped('amount')) - sum(rec.transactions_out.mapped('amount'))
 
 
 class SaveAccounts(models.Model):

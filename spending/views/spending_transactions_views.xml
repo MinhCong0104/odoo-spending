@@ -37,7 +37,7 @@
             <field name="priority">20</field>
             <field name="arch" type="xml">
                 <tree string="Transactions">
-                    <field name="name"/>
+                    <field name="date"/>
                     <field name="amount"/>
                     <field name="type"/>
                     <field name="category_id"/>

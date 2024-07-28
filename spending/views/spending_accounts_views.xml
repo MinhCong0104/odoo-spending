@@ -12,9 +12,12 @@
                         <group>
                             <group>
                                 <field name="name"/>
+                                <field name="amount_first"/>
                                 <field name="amount"/>
                                 <field name="is_save"/>
                                 <field name="user_id" readonly="1"/>
+                                <field name="transactions_in"/>
+                                <field name="transactions_out"/>
                             </group>
                         </group>
                         <notebook>

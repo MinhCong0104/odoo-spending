@@ -22,14 +22,3 @@ class Transactions(models.Model):
     to_account = fields.Many2one('spending.accounts')
     note = fields.Char()
     user_id = fields.Many2one('res.users', readonly=True)
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            if vals.get('from_account'):
-                # trừ tiền
-                pass
-            if vals.get('to_account'):
-                # cộng tiền
-                pass
-        return super().create(vals_list)
