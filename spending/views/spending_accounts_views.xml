@@ -16,13 +16,17 @@
                                 <field name="amount"/>
                                 <field name="is_save"/>
                                 <field name="user_id" readonly="1"/>
-                                <field name="transactions_in"/>
-                                <field name="transactions_out"/>
                             </group>
                         </group>
                         <notebook>
                             <page string="Note" name="note">
                                 <field name="note"/>
+                            </page>
+                            <page string="Transactions in" name="transactions_in">
+                                <field name="transactions_in"/>
+                            </page>
+                            <page string="Transactions out" name="transactions_out">
+                                <field name="transactions_out"/>
                             </page>
                         </notebook>
                     </sheet>
