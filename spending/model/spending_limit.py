@@ -23,12 +23,15 @@ class Limit(models.Model):
     user_id = fields.Many2one('res.users')
 
     def _compute_remain(self):
-        # Method này chưa xong
-        # Logic: query tất cả các transactions có category này trong khoảng thời gian này, tính tổng amount rồi trừ đi
         for rec in self:
             self.env.cr.execute(f"""
                 SELECT sum(amount) FROM spending_transactions 
                 WHERE category_id = {rec.category_id.id}
-            """)
+                      AND date <= %s 
+                      AND date >= %s
+            """, [rec.date_to, rec.date_from])
             res = self.env.cr.fetchall()
             rec.remain = rec.amount - res[0][0]
+
+    def _compute_transactions(self):
+        pass
