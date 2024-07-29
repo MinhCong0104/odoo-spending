@@ -9,26 +9,14 @@ from odoo import api, fields, models, _
 _logger = logging.getLogger(__name__)
 
 
-# class Accounts(models.Model):
-#     _name = 'spending.accounts'
-#     _description = 'Spending Accounts'
-#
-#     name = fields.Char(translate=True, required=True)
-#     amount = fields.Float(required=True, default=0)
-#     withdrew = fields.Float(default=0)
-#     subtotal = fields.Float(default=False)
-#     date_finish = fields.Date()
-#     note = fields.Char()
-#     user_id = fields.Many2one('res.users')
-
-
 class Accounts(models.Model):
     _name = 'spending.accounts'
     _description = 'Spending Accounts'
 
     name = fields.Char(translate=True, required=True)
-    amount_first = fields.Float(required=True, readonly=True, default=0)
-    amount = fields.Float(compute='_compute_amount')
+    amount_first = fields.Monetary(required=True, readonly=True, default=0)
+    amount = fields.Monetary(compute='_compute_amount', currency_field='currency_id')
+    currency_id = fields.Many2one("res.currency", string='Currency', required=True)
     is_save = fields.Boolean(default=False, help="This account is use for saving. "
                                                  "You can use regular bank account as savings account.")
     transactions_in = fields.One2many('spending.transactions', 'to_account')
@@ -54,6 +42,18 @@ class SaveAccounts(models.Model):
     """
     _name = 'spending.accounts.save'
     _inherit = 'spending.accounts'
+
+    date_start = fields.Date(required=True)
+    date_end = fields.Date()
+    target = fields.Float()
+
+    def withdraw(self):
+        # tất toán / rút tiền
+        pass
+
+    def deposit(self):
+        # gửi tiền
+        pass
 
 
 class InvestAccounts(models.Model):
