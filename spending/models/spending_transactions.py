@@ -2,9 +2,11 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import logging
-
 from odoo import api, fields, models, _
-TYPE = [('spend', 'Spend'), ('income', 'Income'), ('save', 'Save')]
+
+
+TYPES_OF_TRANSACTION = [('spend', 'Spend'), ('income', 'Income'), ('save', 'Save')]
+
 
 _logger = logging.getLogger(__name__)
 
@@ -15,7 +17,7 @@ class Transactions(models.Model):
 
     date = fields.Date(default=fields.Date.today(), required=True)
     amount = fields.Float(required=True)
-    type = fields.Selection(TYPE, required=True)
+    type = fields.Selection(TYPES_OF_TRANSACTION, required=True)
     purpose = fields.Selection([('transaction', 'Transaction'), ('save', 'Save'), ('invest', 'Invest')])
     category_id = fields.Many2one('spending.categories')
     from_account = fields.Many2one('spending.accounts')
