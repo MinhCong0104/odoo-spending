@@ -19,10 +19,15 @@ class Accounts(models.Model):
     currency_id = fields.Many2one("res.currency", string='Currency', required=True)
     is_save = fields.Boolean(default=False, help="This account is use for saving. "
                                                  "You can use regular bank account as savings account.")
+    type = fields.Selection()  # sử dụng, tiết kiệm, đầu tư
     transactions_in = fields.One2many('spending.transactions', 'to_account')
     transactions_out = fields.One2many('spending.transactions', 'from_account')
     note = fields.Char()
     user_id = fields.Many2one('res.users')
+
+    # các trường với tài khoản tiết kiệm:
+
+    # các trường với tài khooản đầu tư:
 
     @api.depends('transactions_in', 'transactions_out')
     def _compute_amount(self):
@@ -70,6 +75,18 @@ class InvestAccounts(models.Model):
     _name = 'spending.accounts.invest'
     _inherit = 'spending.accounts'
 
+    date_start = fields.Date(required=True)
+    liquid_amount = fields.Monetary(currency_field='currency_id')
+    asset_amount = fields.Monetary(currency_field='currency_id')
+    total = fields.Monetary(currency_field='currency_id', compute="_compute_money")
+    rate_profit = fields.Float(compute="_compute_money")
+
+    @api.depends('amount', 'liquid_amount', 'asset_amount')
+    def _compute_money(self):
+        for rec in self:
+            rec.total = rec.liquid_amount + rec.asset_amount
+            rec.rate_profit = (rec.total - rec.amount) / rec.amount
+        pass
 
 # class UseAccounts(models.Model):
 #     _name = 'spending.accounts.use'
