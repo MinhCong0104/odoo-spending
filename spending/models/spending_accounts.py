@@ -16,7 +16,7 @@ class Accounts(models.Model):
     _description = 'Spending Accounts'
 
     name = fields.Char(translate=True, required=True)
-    amount_first = fields.Monetary(required=True, readonly=True, default=0)
+    amount_first = fields.Monetary(required=True, default=0)
     amount = fields.Monetary(compute='_compute_amount', currency_field='currency_id')
     currency_id = fields.Many2one("res.currency", string='Currency', required=True)
     is_save = fields.Boolean(default=False, help="This account is use for saving. "
@@ -24,11 +24,11 @@ class Accounts(models.Model):
     type = fields.Selection([('use', 'Use'), ('save', 'Save'), ('invest', 'Invest')], required=True)   # sử dụng, tiết kiệm, đầu tư
     transactions_in = fields.One2many('spending.transactions', 'to_account')
     transactions_out = fields.One2many('spending.transactions', 'from_account')
-    note = fields.Char()
+    note = fields.Text()
     user_id = fields.Many2one('res.users')
 
     # các trường với tài khoản tiết kiệm:
-    date_start = fields.Date(required=True)
+    date_start = fields.Date()
     date_end = fields.Date()
     target = fields.Float()
     account_withdraw = fields.Many2one('spending.accounts')
@@ -81,7 +81,10 @@ class Accounts(models.Model):
     def _compute_money(self):
         for rec in self:
             rec.total = rec.liquid_amount + rec.asset_amount
-            rec.rate_profit = (rec.total - rec.amount) / rec.amount
+            if rec.amount == 0:
+                rec.rate_profit = 0
+            else:
+                rec.rate_profit = (rec.total - rec.amount) / rec.amount
         pass
 
     def withdraw(self):

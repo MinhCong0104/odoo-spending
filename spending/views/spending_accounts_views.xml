@@ -11,12 +11,25 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="name" required="1"/>
                                 <field name="amount_first"/>
                                 <field name="amount"/>
-                                <field name="currency_id"/>
+                                <field name="currency_id" required="1"/>
                                 <field name="is_save"/>
-                                <field name="user_id" readonly="1"/>
+                                <field name="type" required="1"/>
+
+                                <field name="date_start" invisible="type not in ['save', 'invest']"/>
+                                <!--Các trường với tài khoản tiết kiệm-->
+                                <field name="date_end" invisible="type != 'save'"/>
+                                <field name="target" invisible="type != 'save'"/>
+                                <field name="account_withdraw" invisible="type != 'save'"/>
+                                <!--Các trường với tài khoản đầu tư-->
+                                <field name="liquid_amount" invisible="type != 'invest'"/>
+                                <field name="asset_amount" invisible="type != 'invest'"/>
+                                <field name="total" invisible="type != 'invest'"/>
+                                <field name="rate_profit" invisible="type != 'invest'"/>
+
+                                <field name="user_id" readonly="1" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
@@ -44,7 +57,7 @@
                 <tree string="Accounts">
                     <field name="name"/>
                     <field name="amount"/>
-                    <field name="is_save"/>
+                    <field name="note"/>
                 </tree>
             </field>
         </record>
