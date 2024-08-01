@@ -31,7 +31,8 @@ class Limit(models.Model):
                       AND date >= %s
             """, [rec.date_to, rec.date_from])
             res = self.env.cr.fetchall()
-            rec.remain = rec.amount - res[0][0]
+            amount_spent = 0 if not res[0][0] else res[0][0]
+            rec.remain = rec.amount - amount_spent
 
     def _compute_transactions(self):
         pass
