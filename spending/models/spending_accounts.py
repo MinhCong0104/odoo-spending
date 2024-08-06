@@ -80,11 +80,15 @@ class Accounts(models.Model):
     @api.depends('amount', 'liquid_amount', 'asset_amount')
     def _compute_money(self):
         for rec in self:
-            rec.total = rec.liquid_amount + rec.asset_amount
-            if rec.amount == 0:
-                rec.rate_profit = 0
+            if rec.type == 'invest':
+                rec.total = rec.liquid_amount + rec.asset_amount
+                if rec.amount == 0:
+                    rec.rate_profit = 0
+                else:
+                    rec.rate_profit = (rec.total - rec.amount) / rec.amount
             else:
-                rec.rate_profit = (rec.total - rec.amount) / rec.amount
+                rec.total = rec.amount
+                rec.rate_profit = None
         pass
 
     def withdraw(self):

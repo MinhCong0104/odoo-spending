@@ -13,7 +13,6 @@ class Limit(models.Model):
     _name = 'spending.limit'
     _description = 'Spending Limit'
 
-    name = fields.Char(translate=True, required=True)
     amount = fields.Float(required=True, default=0)
     remain = fields.Float(readonly=True, compute='_compute_remain')
     date_from = fields.Date()

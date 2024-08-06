@@ -38,7 +38,7 @@
             <field name="arch" type="xml">
                 <tree string="Transactions">
                     <field name="date"/>
-                    <field name="amount"/>
+                    <field name="amount" sum="Total amount"/>
                     <field name="type"/>
                     <field name="category_id"/>
                     <field name="from_account"/>

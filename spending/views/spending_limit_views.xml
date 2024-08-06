@@ -11,10 +11,9 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="category_id"/>
                                 <field name="amount"/>
                                 <field name="remain"/>
-                                <field name="category_id"/>
                                 <field name="date_from"/>
                                 <field name="date_to"/>
                                 <field name="user_id" readonly="1"/>
@@ -38,9 +37,8 @@
             <field name="arch" type="xml">
                 <tree string="Limit">
                     <field name="category_id"/>
-                    <field name="amount"/>
-                    <field name="remain"/>
-                    <field name="name" optional="hide"/>
+                    <field name="amount" sum="Total amount limit"/>
+                    <field name="remain" sum="Total remain"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
                 </tree>
