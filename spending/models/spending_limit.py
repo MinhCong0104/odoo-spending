@@ -13,8 +13,9 @@ class Limit(models.Model):
     _name = 'spending.limit'
     _description = 'Spending Limit'
 
-    amount = fields.Float(required=True, default=0)
-    remain = fields.Float(readonly=True, compute='_compute_remain')
+    amount = fields.Monetary(required=True, default=0, currency_field='currency_id')
+    remain = fields.Monetary(readonly=True, currency_field='currency_id', compute='_compute_remain')
+    currency_id = fields.Many2one("res.currency", string='Currency', required=True)
     date_from = fields.Date()
     date_to = fields.Date()
     note = fields.Char()

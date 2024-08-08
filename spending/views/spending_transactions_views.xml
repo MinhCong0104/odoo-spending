@@ -15,6 +15,7 @@
                                 <field name="amount" required="1"/>
                                 <field name="type"/>
                                 <field name="category_id"/>
+                                <field name="currency_id" required="1"/>
                                 <field name="from_account" invisible="type == 'income'" required="type != 'income'"/>
                                 <field name="to_account" invisible="type == 'spend'" required="type != 'spend'"/>
                                 <field name="user_id" readonly="1"/>
@@ -38,7 +39,8 @@
             <field name="arch" type="xml">
                 <tree string="Transactions">
                     <field name="date"/>
-                    <field name="amount" sum="Total amount"/>
+                    <field name="amount" sum="Total amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                    <field name="currency_id" column_invisible="1"/>
                     <field name="type"/>
                     <field name="category_id"/>
                     <field name="from_account"/>

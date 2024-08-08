@@ -16,7 +16,8 @@ class Transactions(models.Model):
     _description = 'Spending Transactions'
 
     date = fields.Date(default=fields.Date.today(), required=True)
-    amount = fields.Float(required=True)
+    amount = fields.Monetary(required=True, currency_field='currency_id')
+    currency_id = fields.Many2one("res.currency", string='Currency', required=True)
     type = fields.Selection(TYPES_OF_TRANSACTION, required=True, default='spend', compute='_compute_type')
     purpose = fields.Selection([('transaction', 'Transaction'), ('save', 'Save'), ('invest', 'Invest')])
     category_id = fields.Many2one('spending.categories')

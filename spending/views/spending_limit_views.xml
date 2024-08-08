@@ -14,6 +14,7 @@
                                 <field name="category_id"/>
                                 <field name="amount"/>
                                 <field name="remain"/>
+                                <field name="currency_id" required="1"/>
                                 <field name="date_from"/>
                                 <field name="date_to"/>
                                 <field name="user_id" readonly="1"/>
@@ -37,8 +38,9 @@
             <field name="arch" type="xml">
                 <tree string="Limit">
                     <field name="category_id"/>
-                    <field name="amount" sum="Total amount limit"/>
-                    <field name="remain" sum="Total remain"/>
+                    <field name="currency_id" column_invisible="1"/>
+                    <field name="amount" sum="Total amount limit" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                    <field name="remain" sum="Total remain" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
                 </tree>
