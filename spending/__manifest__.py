@@ -10,6 +10,7 @@
     'depends': [],
     'data': [
         "security/ir.model.access.csv",
+        "security/spending_security.xml",
 
         "views/spending_categories_views.xml",
         "views/spending_accounts_views.xml",

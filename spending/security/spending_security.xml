@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_rule_transactions_all_users" model="ir.rule">
+        <field name="name">Spending: Users can see their own transactions</field>
+        <field name="model_id" ref="model_spending_transactions"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="ir_rule_categories_all_users" model="ir.rule">
+        <field name="name">Spending: Users can see their own categories</field>
+        <field name="model_id" ref="model_spending_categories"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="ir_rule_limit_all_users" model="ir.rule">
+        <field name="name">Spending: Users can see their own limit</field>
+        <field name="model_id" ref="model_spending_limit"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="ir_rule_accounts_all_users" model="ir.rule">
+        <field name="name">Spending: Users can see their own accounts</field>
+        <field name="model_id" ref="model_spending_accounts"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+</odoo>
