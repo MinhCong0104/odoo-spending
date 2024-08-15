@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <odoo>
     <data>
-        <!-- spending.categories form!-->
         <record id="view_spending_accounts_form" model="ir.ui.view">
             <field name="name">spending.accounts.view.form</field>
             <field name="model">spending.accounts</field>
@@ -17,6 +16,7 @@
                                 <field name="currency_id" required="1"/>
                                 <field name="is_save"/>
                                 <field name="type" required="1"/>
+                                <field name="default_spend" invisible="type != 'use'"/>
 
                                 <field name="date_start" invisible="type not in ['save', 'invest']"/>
                                 <!--Các trường với tài khoản tiết kiệm-->
@@ -48,7 +48,6 @@
             </field>
         </record>
 
-        <!-- spending.categories tree!-->
         <record id="view_spending_accounts_tree" model="ir.ui.view">
             <field name="name">spending.accounts.view.tree</field>
             <field name="model">spending.accounts</field>
@@ -61,6 +60,8 @@
                     <field name="total" sum="Total"/>
                     <field name="liquid_amount" sum="Total Liquid Amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                     <field name="asset_amount" sum="Total Asset Amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                    <field name="type"/>
+                    <field name="default_spend" widget="boolean_toggle"/>
                     <field name="note"/>
                 </tree>
             </field>

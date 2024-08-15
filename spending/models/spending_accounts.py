@@ -3,6 +3,7 @@
 
 import logging
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
 
 
 TYPES_SELECTION = [('spend', 'Spend'), ('income', 'Income'), ('save', 'Save')]  # sử dụng, tiết kiệm, đầu tư
@@ -22,6 +23,7 @@ class Accounts(models.Model):
     is_save = fields.Boolean(default=False, help="This account is use for saving. "
                                                  "You can use regular bank account as savings account.")
     type = fields.Selection([('use', 'Use'), ('save', 'Save'), ('invest', 'Invest')], required=True)   # sử dụng, tiết kiệm, đầu tư
+    default_spend = fields.Boolean()
     transactions_in = fields.One2many('spending.transactions', 'to_account')
     transactions_out = fields.One2many('spending.transactions', 'from_account')
     note = fields.Text()
@@ -43,6 +45,15 @@ class Accounts(models.Model):
     def _compute_amount(self):
         for rec in self:
             rec.amount = rec.amount_first + sum(rec.transactions_in.mapped('amount')) - sum(rec.transactions_out.mapped('amount'))
+
+    def write(self, vals):
+        if vals.get('default_spend'):
+            if self.type != 'use':
+                raise UserError(_('You cannot set an account not for using to default spending account'))
+            all_accounts = self.env['spending.accounts'].sudo().search([('user_id', '=', self.env.uid)])
+            all_accounts.default_spend = False
+        return super(Accounts, self).write(vals)
+
 
     # Methods đối với tài khoản tiết kiệm
     """Tài khoản tiết kiệm
