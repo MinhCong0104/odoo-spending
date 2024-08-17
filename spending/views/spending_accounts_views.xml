@@ -60,7 +60,7 @@
                     <field name="liquid_amount" sum="Total Liquid Amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                     <field name="asset_amount" sum="Total Asset Amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                     <field name="type"/>
-                    <field name="default_spend" widget="boolean_toggle"/>
+<!--                    <field name="default_spend" widget="boolean_toggle"/>-->
                     <field name="note"/>
                 </tree>
             </field>
