@@ -13,7 +13,7 @@
                                 <field name="date"/>
                                 <field name="amount" required="1"/>
                                 <field name="type"/>
-                                <field name="category_id"/>
+                                <field name="category_id" domain="[('type', '=', type)]"/>
                                 <field name="currency_id" required="1"/>
                                 <field name="from_account" invisible="type == 'income'" required="type != 'income'"/>
                                 <field name="to_account" invisible="type == 'spend'" required="type != 'spend'"/>
@@ -53,12 +53,15 @@
             <field name="model">spending.transactions</field>
             <field name="arch" type="xml">
                 <search string="Transaction Search">
+                    <group expand="0" string="Filters">
+                        <filter name="filter_spend" string="Spend" domain="[('type', '=', 'spend')]"/>
+                        <filter name="filter_income" string="Income" domain="[('type', '=', 'income')]"/>
+                        <filter name="filter_save" string="Save" domain="[('type', '=', 'save')]"/>
+                    </group>
+
                     <group expand="1" string="Group By">
                         <filter string="Date" name="group_by_day" context="{'group_by':'date:day'}"/>
                         <filter string="Category" name="group_by_category" context="{'group_by':'category_id'}"/>
-<!--                        <filter string="Week" name="group_by_week" context="{'group_by':'date:week'}"/>-->
-<!--                        <filter string="Month" name="group_by_week" context="{'group_by':'date:month'}"/>-->
-<!--                        <filter string="Year" name="group_by_week" context="{'group_by':'date:year'}"/>-->
                     </group>
                 </search>
             </field>
@@ -82,16 +85,14 @@
             <field name="name">Transactions</field>
             <field name="res_model">spending.transactions</field>
             <field name="view_mode">graph,tree,form</field>
+            <field name="search_view_id" ref="view_spending_transactions_search"/>
             <field name="context">{
                 'default_user_id': uid,
+                'search_default_filter_spend': 1,
                 'search_default_group_by_day': 1,
                 'search_default_group_by_category': 1
             }</field>
-            <field name="domain">[('type','=','spend')]</field>
         </record>
-
-<!--        Viết thêm view riêng cho internal, income-->
-
 
     </data>
 </odoo>
