@@ -16,7 +16,6 @@
                                 <field name="currency_id" required="1"/>
                                 <field name="is_save"/>
                                 <field name="type" required="1"/>
-                                <field name="default_spend" invisible="type != 'use'"/>
 
                                 <field name="date_start" invisible="type not in ['save', 'invest']"/>
                                 <!--Các trường với tài khoản tiết kiệm-->
