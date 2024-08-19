@@ -40,37 +40,27 @@
             </field>
         </record>
 
-        <!-- spending.categories search!-->
-<!--        <record model="ir.ui.view" id="view_message_search">-->
-<!--            <field name="name">mail.message.search</field>-->
-<!--            <field name="model">mail.message</field>-->
-<!--            <field name="priority">25</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <search string="Messages Search">-->
-<!--                    <field name="body" string="Content" filter_domain="['|', ('subject', 'ilike', self), ('body', 'ilike', self)]" />-->
-<!--                    <field name="subject"/>-->
-<!--                    <field name="message_type"/>-->
-<!--                    <field name="author_id"/>-->
-<!--                    <field name="partner_ids"/>-->
-<!--                    <field name="model"/>-->
-<!--                    <field name="res_id"/>-->
-<!--                    <field name="parent_id"/>-->
-<!--                    <filter string="Has Mentions"-->
-<!--                            name="filter_has_mentions"-->
-<!--                            domain="[('partner_ids.user_ids', 'in', [uid])]"/>-->
-<!--                    <separator/>-->
-<!--                    <filter string="Need Action"-->
-<!--                            name="message_needaction" help="Unread messages"-->
-<!--                            domain="[('needaction', '=', True)]"/>-->
-<!--                    <separator/>-->
-<!--                </search>-->
-<!--            </field>-->
-<!--        </record>-->
+        <record id="view_account_areas_search" model="ir.ui.view">
+            <field name="name">account.areas.view.search</field>
+            <field name="model">account.areas</field>
+            <field name="arch" type="xml">
+                <search string="Search Areas">
+                    <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                    <field name="code" filter_domain="[('code', 'ilike', self)]"/>
+<!--                    <field name="company_id" filter_domain="[('company_id', 'ilike', self)]"/>-->
+                    <separator/>
+                    <group expand="1" string="Group By">
+                        <filter string="Company" name="group_by_company_id" context="{'group_by':'company_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
 
         <record id="action_view_account_areas" model="ir.actions.act_window">
             <field name="name">Areas</field>
             <field name="res_model">account.areas</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_account_areas_search"/>
         </record>
 
     </data>

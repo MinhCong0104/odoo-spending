@@ -16,12 +16,12 @@ class Limit(models.Model):
 
     name = fields.Char(required=True)
     code = fields.Char(required=True)
-    company_id = fields.Many2one('res.companies', required=True)
+    company_id = fields.Many2one('res.company', required=True)
     note = fields.Char()
 
     @api.constrains('name', 'code')
     def _check_name_code(self):
-        a = self.search_read([], fields=['name', 'code'])
+        # a = self.search_read([], fields=['name', 'code'])
         existing_names = []
         existing_codes = []
         for rec in self:

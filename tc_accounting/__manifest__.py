@@ -11,6 +11,7 @@
     'data': [
         "security/ir.model.access.csv",
         "views/account_areas_views.xml",
+        "views/res_partner_views.xml",
         "views/menus.xml",
     ],
     'installable': True,
