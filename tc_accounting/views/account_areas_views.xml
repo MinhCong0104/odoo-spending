@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="view_account_areas_form" model="ir.ui.view">
+            <field name="name">account.areas.view.form</field>
+            <field name="model">account.areas</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <form string="Areas">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Note" name="note">
+                                <field name="note"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_account_areas_tree" model="ir.ui.view">
+            <field name="name">account.areas.view.tree</field>
+            <field name="model">account.areas</field>
+            <field name="priority">20</field>
+            <field name="arch" type="xml">
+                <tree string="Categories">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="note"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- spending.categories search!-->
+<!--        <record model="ir.ui.view" id="view_message_search">-->
+<!--            <field name="name">mail.message.search</field>-->
+<!--            <field name="model">mail.message</field>-->
+<!--            <field name="priority">25</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search string="Messages Search">-->
+<!--                    <field name="body" string="Content" filter_domain="['|', ('subject', 'ilike', self), ('body', 'ilike', self)]" />-->
+<!--                    <field name="subject"/>-->
+<!--                    <field name="message_type"/>-->
+<!--                    <field name="author_id"/>-->
+<!--                    <field name="partner_ids"/>-->
+<!--                    <field name="model"/>-->
+<!--                    <field name="res_id"/>-->
+<!--                    <field name="parent_id"/>-->
+<!--                    <filter string="Has Mentions"-->
+<!--                            name="filter_has_mentions"-->
+<!--                            domain="[('partner_ids.user_ids', 'in', [uid])]"/>-->
+<!--                    <separator/>-->
+<!--                    <filter string="Need Action"-->
+<!--                            name="message_needaction" help="Unread messages"-->
+<!--                            domain="[('needaction', '=', True)]"/>-->
+<!--                    <separator/>-->
+<!--                </search>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="action_view_account_areas" model="ir.actions.act_window">
+            <field name="name">Areas</field>
+            <field name="res_model">account.areas</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>
