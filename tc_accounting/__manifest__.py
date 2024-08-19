@@ -13,11 +13,6 @@
         "views/account_areas_views.xml",
         "views/menus.xml",
     ],
-    # 'assets': {
-    #     'web.assets_frontend': [
-    #         'auth_signup/static/**/*',
-    #     ],
-    # },
     'installable': True,
     'application': True,
     'license': 'LGPL-3',
