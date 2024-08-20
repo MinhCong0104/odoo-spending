@@ -16,7 +16,7 @@ class Limit(models.Model):
 
     name = fields.Char(required=True)
     code = fields.Char(required=True)
-    company_id = fields.Many2one('res.company', required=True)
+    company_id = fields.Many2one('res.company', required=True, default=lambda self: self.env.company)
     note = fields.Char()
 
     _sql_constraints = [

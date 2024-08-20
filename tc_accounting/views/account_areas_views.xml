@@ -12,7 +12,7 @@
                             <group>
                                 <field name="name"/>
                                 <field name="code"/>
-                                <field name="company_id"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
                             </group>
                         </group>
 
@@ -31,11 +31,11 @@
             <field name="model">account.areas</field>
             <field name="priority">20</field>
             <field name="arch" type="xml">
-                <tree string="Categories">
+                <tree string="Areas">
                     <field name="name"/>
                     <field name="code"/>
                     <field name="note"/>
-                    <field name="company_id"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
                 </tree>
             </field>
         </record>
@@ -45,9 +45,9 @@
             <field name="model">account.areas</field>
             <field name="arch" type="xml">
                 <search string="Search Areas">
-                    <field name="name" filter_domain="[('name', 'ilike', self)]"/>
-                    <field name="code" filter_domain="[('code', 'ilike', self)]"/>
-<!--                    <field name="company_id" filter_domain="[('company_id', 'ilike', self)]"/>-->
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="company_id"/>
                     <separator/>
                     <group expand="1" string="Group By">
                         <filter string="Company" name="group_by_company_id" context="{'group_by':'company_id'}"/>
@@ -61,6 +61,7 @@
             <field name="res_model">account.areas</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_account_areas_search"/>
+            <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
         </record>
 
     </data>
