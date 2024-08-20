@@ -19,13 +19,7 @@ class Limit(models.Model):
     company_id = fields.Many2one('res.company', required=True)
     note = fields.Char()
 
-    @api.constrains('name', 'code')
-    def _check_name_code(self):
-        # a = self.search_read([], fields=['name', 'code'])
-        existing_names = []
-        existing_codes = []
-        for rec in self:
-            if rec.name in existing_names:
-                raise ValidationError(_('You are not allowed to request a time off on a Mandatory Day.'))
-            if rec.code in existing_codes:
-                raise ValidationError(_('You are not allowed to request a time off on a Mandatory Day.'))
+    _sql_constraints = [
+        ('name_uniq', 'unique (name)', "Name already exists!"),
+        ('code_uniq', 'unique (code)', "Code already exists!"),
+    ]
