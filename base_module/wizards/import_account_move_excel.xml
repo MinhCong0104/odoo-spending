@@ -1,0 +1,63 @@
+<odoo>
+    <record id="view_import_excel_wizard" model="ir.ui.view">
+        <field name="name">import.move.excel.wizard.form</field>
+        <field name="model">import.move.excel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Excel">
+                <group>
+                    <field name="file_name" readonly="1"/>
+                    <field name="file_data" filename="file_name"/>
+                </group>
+                <div class="d-flex align-items-center">
+                    <label for="sample_file_name" name="File mẫu"/>
+                    <field name="sample_file_name" readonly="1"/>
+                    <button icon="fa-download" type="object" name="action_download_sample_file" class="btn-secondary"/>
+                </div>
+                <footer>
+                    <button string="Import" type="object" name="action_import_excel" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_excel_wizard" model="ir.actions.act_window">
+        <field name="name">Import Excel</field>
+        <field name="res_model">import.move.excel.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_import_excel_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+    <record id="view_import_excel_multi_partner" model="ir.ui.view">
+        <field name="name">import.move.excel.multi.partner.form</field>
+        <field name="model">import.move.excel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Excel">
+                <group>
+                    <field name="file_name" readonly="1"/>
+                    <field name="file_data" filename="file_name"/>
+                </group>
+                <div class="d-flex align-items-center">
+                    <label for="sample_file_name" name="File mẫu"/>
+                    <field name="sample_file_name" readonly="1"/>
+                    <button icon="fa-download" type="object" name="action_download_sample_file" class="btn-secondary"/>
+                </div>
+                <footer>
+                    <button string="Import" type="object" name="action_import_excel_multi_partner" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_import_excel_multi_partner" model="ir.actions.act_window">
+        <field name="name">Import Excel Multi Partner</field>
+        <field name="res_model">import.move.excel.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_import_excel_multi_partner"/>
+        <field name="context">{'multi_partner_account_move': True}</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
