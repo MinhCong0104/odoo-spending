@@ -20,9 +20,10 @@ class Clothing(models.Model):
     def action_move(self):
         return {
             'type': 'ir.actions.act_window',
-            'name': 'My Wizard',
-            'res_model': 'my.wizard',
+            'name': 'Thực hiện di chuyển',
+            'res_model': 'closing.action',
             'view_mode': 'form',
+            'item_ids': self.ids,
             'target': 'new',  # 'new' để mở wizard trong modal popup
         }
 
