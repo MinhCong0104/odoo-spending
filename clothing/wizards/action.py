@@ -17,13 +17,12 @@ class Action(models.TransientModel):
 
     def action_confirm(self):
         self.ensure_one()
-        for item in self.item_ids:
-            self.env['clothing.history'].create({
-                'time': datetime.now(),
-                'item_id': item.id,
-                'old_location_id': item.location_id.id,
-                'current_location_id': self.location_id.id,
-                'note': self.note,
-            })
-            item.sudo.write({'location_id': self.location_id.id})
+        self.env['clothing.history'].create({
+            'time': datetime.now(),
+            'item_id': item.id,
+            'old_location_id': item.location_id.id,
+            'current_location_id': self.location_id.id,
+            'note': self.note,
+        } for item in self.item_ids)
+        self.item_ids.sudo.write({'location_id': self.location_id.id})
         return {'type': 'ir.actions.act_window_close'}

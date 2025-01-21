@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="clothing_move_action_server" model="ir.actions.server">
+        <field name="name">Sử dụng tranng phục</field>
+        <field name="model_id" ref="clothing_item"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = env['clothing.item'].browse(context.get('active_ids')).action_move()
+        </field>
+    </record>
+
+    <record id="clothing_item_view_form" model="ir.ui.view">
+        <field name="name">clothing.item.form</field>
+        <field name="model">clothing.item</field>
+        <field name="arch" type="xml">
+            <form string="Trang phục">
+                <header>
+                    <button name="%(clothing_move_action_server)d" string="Open Wizard" type="action" class="btn-primary" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="category_id"/>
+                            <field name="location_id"/>
+                            <field name="desc"/>
+                        </group>
+
+                        <group>
+                            <field name="image"/>
+                            <field name="size"/>
+                            <field name="price"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_clothing_item_tree" model="ir.ui.view">
+        <field name="name">clothing.item.view.tree</field>
+        <field name="model">clothing.item</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <tree string="Trang phục">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="location_id"/>
+                <field name="desc"/>
+                <field name="size" optional="hide"/>
+                <field name="price" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_clothing_item_search" model="ir.ui.view">
+        <field name="name">clothing.item.view.search</field>
+        <field name="model">clothing.item</field>
+        <field name="arch" type="xml">
+            <search string="Tìm kiếm trang phục">
+                <field name="name"/>
+                <field name="location_id"/>
+                <field name="category_id"/>
+                <separator/>
+                <group expand="1" string="Group By">
+                    <filter string="Vị trí" name="group_by_location_id" context="{'group_by':'location_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_view_clothing_item" model="ir.actions.act_window">
+        <field name="name">Trang phục</field>
+        <field name="res_model">clothing.item</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_account_areas_search"/>
+        <field name="domain">[('user_id', '=', uid)]</field>
+    </record>
+
+</odoo>
+

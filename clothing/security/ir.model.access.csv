@@ -1,2 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_account_areas,account.areas,model_account_areas,base.group_user,1,1,1,1
+access_clothing_item,clothing.item,model_clothing_item,base.group_user,1,1,1,1
+access_clothing_category,clothing.category,model_clothing_category,base.group_user,1,1,1,1
+access_clothing_location,clothing.location,model_clothing_location,base.group_user,1,1,1,1
+access_clothing_history,clothing.history,model_clothing_history,base.group_user,1,1,1,1
+access_clothing_action,clothing.action,model_clothing_action,base.group_user,1,1,1,1

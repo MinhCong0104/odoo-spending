@@ -23,7 +23,7 @@ class Clothing(models.Model):
             'name': 'Thực hiện di chuyển',
             'res_model': 'closing.action',
             'view_mode': 'form',
-            'item_ids': self.ids,
+            'item_ids': self.env.context.get('active_ids'),
             'target': 'new',  # 'new' để mở wizard trong modal popup
         }
 
