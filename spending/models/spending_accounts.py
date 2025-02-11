@@ -6,9 +6,6 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
 
-TYPES_SELECTION = [('spend', 'Spend'), ('income', 'Income'), ('save', 'Save')]  # sử dụng, tiết kiệm, đầu tư
-
-
 _logger = logging.getLogger(__name__)
 
 
@@ -17,43 +14,29 @@ class Accounts(models.Model):
     _description = 'Spending Accounts'
 
     name = fields.Char(translate=True, required=True)
-    amount_first = fields.Monetary(required=True, default=0)
-    amount = fields.Monetary(compute='_compute_amount', currency_field='currency_id')
-    currency_id = fields.Many2one("res.currency", string='Currency', required=True)
-    is_save = fields.Boolean(default=False, help="This account is use for saving. "
-                                                 "You can use regular bank account as savings account.")
-    type = fields.Selection([('use', 'Use'), ('save', 'Save'), ('invest', 'Invest')], required=True)   # sử dụng, tiết kiệm, đầu tư
-    default_spend = fields.Boolean()
-    transactions_in = fields.One2many('spending.transactions', 'to_account')
-    transactions_out = fields.One2many('spending.transactions', 'from_account')
+    amount = fields.Monetary(currency_field='currency_id', compute='_compute_amount')
+    currency_id = fields.Many2one("res.currency", string='Currency', default=lambda self: self.env.company.currency_id)
+    type = fields.Selection([('use', 'Use'), ('save', 'Save'), ('invest', 'Invest')], default='use', required=True)
     note = fields.Text()
-    user_id = fields.Many2one('res.users')
+    user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
 
-    # các trường với tài khoản tiết kiệm:
+    rate = fields.Float(compute="_compute_rate", store=True, readonly=False)
     date_start = fields.Date()
+    # với tài khoản tiết kiệm (biết lãi suất và ngày rút):
     date_end = fields.Date()
     target = fields.Float()
-    account_withdraw = fields.Many2one('spending.accounts')
+    # với tài khoản đầu tư (chưa biết lãi suất và ngày rút):
+    amount_now = fields.Monetary(currency_field='currency_id')
 
-    # các trường với tài khooản đầu tư:
-    liquid_amount = fields.Monetary(currency_field='currency_id')
-    asset_amount = fields.Monetary(currency_field='currency_id')
-    total = fields.Monetary(currency_field='currency_id', compute="_compute_money")
-    rate_profit = fields.Float(compute="_compute_money")
-
-    @api.depends('transactions_in', 'transactions_out')
+    # phương thức tính số tiền trong tài khoản
     def _compute_amount(self):
-        for rec in self:
-            rec.amount = rec.amount_first + sum(rec.transactions_in.mapped('amount')) - sum(rec.transactions_out.mapped('amount'))
+        query = f"""
+SELECT COALESCE(SUM(), 0)
+FROM spending_transactions
+WHERE from_account = %(from_account)s
+"""
 
-    def write(self, vals):
-        if vals.get('default_spend'):
-            if self.type != 'use':
-                raise UserError(_('You cannot set an account not for using to default spending account'))
-            all_accounts = self.env['spending.accounts'].sudo().search([('user_id', '=', self.env.uid)])
-            all_accounts.default_spend = False
-        return super(Accounts, self).write(vals)
-
+    # phương thức tính tỷ suất lợi nhuận (%/năm) đối với tk đầu tư
 
     # Methods đối với tài khoản tiết kiệm
     """Tài khoản tiết kiệm

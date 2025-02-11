@@ -2,9 +2,8 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import logging
-
 from odoo import api, fields, models, _
-from odoo.addons.spending.models.spending_transactions import TYPES_OF_TRANSACTION
+
 
 _logger = logging.getLogger(__name__)
 
@@ -14,7 +13,7 @@ class Categories(models.Model):
     _description = 'Spending Categories'
 
     name = fields.Char(translate=True, required=True)
-    type = fields.Selection(TYPES_OF_TRANSACTION, required=True)
-    note = fields.Char()
+    type = fields.Selection([('spend', 'Spend'), ('income', 'Income'), ('internal', 'Internal')], default='spend', required=True)
     report = fields.Boolean(string="Include on Report", default=True)
-    user_id = fields.Many2one('res.users')
+    note = fields.Char()
+    user_id = fields.Many2one('res.users', default=lambda self: self.env.user)

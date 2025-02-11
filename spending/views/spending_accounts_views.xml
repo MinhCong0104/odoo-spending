@@ -11,22 +11,17 @@
                         <group>
                             <group>
                                 <field name="name" required="1"/>
-                                <field name="amount_first"/>
                                 <field name="amount"/>
-                                <field name="currency_id" required="1"/>
-                                <field name="is_save"/>
+                                <field name="currency_id" readonly="1" invisible="1"/>
                                 <field name="type" required="1"/>
 
-                                <field name="date_start" invisible="type not in ['save', 'invest']"/>
-                                <!--Các trường với tài khoản tiết kiệm-->
-                                <field name="date_end" invisible="type != 'save'"/>
-                                <field name="target" invisible="type != 'save'"/>
-                                <field name="account_withdraw" invisible="type != 'save'"/>
-                                <!--Các trường với tài khoản đầu tư-->
-                                <field name="liquid_amount" invisible="type != 'invest'"/>
-                                <field name="asset_amount" invisible="type != 'invest'"/>
-                                <field name="total" invisible="type != 'invest'"/>
-                                <field name="rate_profit" invisible="type != 'invest'"/>
+                                <field name="date_start" invisible="type not in ['save', 'invest']" required="type in ['save', 'invest']"/>
+                                <field name="rate" invisible="type != 'invest'"/>
+                                <!--với tài khoản tiết kiệm-->
+                                <field name="date_end" invisible="type != 'save'" required="type == 'save'"/>
+                                <field name="target" invisible="type != 'save'" required="type == 'save'"/>
+                                <!--với tài khoản đầu tư-->
+                                <field name="amount_now" invisible="type != 'invest'"/>
 
                                 <field name="user_id" readonly="1" invisible="1"/>
                             </group>
@@ -34,12 +29,6 @@
                         <notebook>
                             <page string="Note" name="note">
                                 <field name="note"/>
-                            </page>
-                            <page string="Transactions in" name="transactions_in">
-                                <field name="transactions_in"/>
-                            </page>
-                            <page string="Transactions out" name="transactions_out">
-                                <field name="transactions_out"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -53,15 +42,15 @@
             <field name="priority">20</field>
             <field name="arch" type="xml">
                 <tree string="Accounts">
-                    <field name="currency_id" column_invisible="1"/>
                     <field name="name"/>
                     <field name="amount"/>
-                    <field name="total" sum="Total"/>
-                    <field name="liquid_amount" sum="Total Liquid Amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                    <field name="asset_amount" sum="Total Asset Amount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                     <field name="type"/>
-<!--                    <field name="default_spend" widget="boolean_toggle"/>-->
-                    <field name="note"/>
+                    <field name="currency_id" optional="hide"/>
+                    <field name="date_start" optional="hide"/>
+                    <field name="date_end" optional="hide"/>
+                    <field name="rate" optional="hide"/>
+                    <field name="target" optional="hide"/>
+                    <field name="amount_now" optional="hide"/>
                 </tree>
             </field>
         </record>
@@ -97,7 +86,7 @@
             <field name="name">Accounts</field>
             <field name="res_model">spending.accounts</field>
             <field name="view_mode">tree,form</field>
-            <field name="context">{'default_user_id': uid}</field>
+<!--            <field name="context">{'default_user_id': uid}</field>-->
         </record>
 
     </data>

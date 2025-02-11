@@ -2,4 +2,5 @@
 "access_spending_categories","Spending categories access","model_spending_categories","base.group_user",1,1,1,1
 "access_spending_accounts","Spending accounts access","model_spending_accounts","base.group_user",1,1,1,1
 "access_spending_limit","Spending limit access","model_spending_limit","base.group_user",1,1,1,1
+"access_spending_limit_line","Spending limit line access","model_spending_limit_line","base.group_user",1,1,1,1
 "access_spending_transactions","Spending transactions access","model_spending_transactions","base.group_user",1,1,1,1

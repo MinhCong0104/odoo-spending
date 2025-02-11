@@ -7,20 +7,27 @@
             <field name="model">spending.limit</field>
             <field name="priority">20</field>
             <field name="arch" type="xml">
-                <form string="Limit" duplicate="0">
+                <form string="Limit">
                     <sheet>
                         <group>
                             <group>
-                                <field name="category_id"/>
-                                <field name="amount"/>
-                                <field name="remain"/>
-                                <field name="currency_id" required="1"/>
+                                <field name="name"/>
                                 <field name="date_from"/>
                                 <field name="date_to"/>
-                                <field name="user_id" readonly="1"/>
+                                <field name="user_id" readonly="1" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
+                            <page string="Lines" name="line_ids">
+                                <field name="line_ids">
+                                    <tree editable="bottom">
+                                        <field name="category_id"/>
+                                        <field name="currency_id" optional="hide"/>
+                                        <field name="amount"/>
+                                        <field name="note" optional="hide"/>
+                                    </tree>
+                                </field>
+                            </page>
                             <page string="Note" name="note">
                                 <field name="note"/>
                             </page>
@@ -37,10 +44,7 @@
             <field name="priority">20</field>
             <field name="arch" type="xml">
                 <tree string="Limit">
-                    <field name="category_id"/>
-                    <field name="currency_id" column_invisible="1"/>
-                    <field name="amount" sum="Total amount limit" widget='monetary' options="{'currency_field': 'currency_id'}"/>
-                    <field name="remain" sum="Total remain" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                    <field name="name"/>
                     <field name="date_from"/>
                     <field name="date_to"/>
                 </tree>
