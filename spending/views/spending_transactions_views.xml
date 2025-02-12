@@ -42,8 +42,8 @@
                     <field name="currency_id" column_invisible="1"/>
                     <field name="type"/>
                     <field name="category_id"/>
-                    <field name="from_account"/>
-                    <field name="to_account"/>
+                    <field name="from_account" required="type != 'income'"/>
+                    <field name="to_account" required="type != 'spend'"/>
                     <field name="note"/>
                 </tree>
             </field>

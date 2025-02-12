@@ -5,7 +5,6 @@ import logging
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
-
 _logger = logging.getLogger(__name__)
 
 
@@ -31,62 +30,39 @@ class Accounts(models.Model):
     # phương thức tính số tiền trong tài khoản
     def _compute_amount(self):
         query = f"""
-SELECT COALESCE(SUM(), 0)
-FROM spending_transactions
-WHERE from_account = %(from_account)s
-"""
+            SELECT COALESCE(SUM(amount), 0) AS amount
+            FROM spending_transactions
+            WHERE %(account)s = %(account_id)s
+        """
+        for rec in self:
+            self.env.cr.execute(query % {'account': 'to_account', 'account_id': rec.id})
+            amount_in = self.env.cr.dictfetchone()['amount']
+            self.env.cr.execute(query % {'account': 'from_account', 'account_id': rec.id})
+            amount_out = self.env.cr.dictfetchone()['amount']
+            rec.amount = amount_in - amount_out
 
     # phương thức tính tỷ suất lợi nhuận (%/năm) đối với tk đầu tư
 
     # Methods đối với tài khoản tiết kiệm
     """Tài khoản tiết kiệm
-    Note: Túi thần tài được coi như tài khoản tiêu dùng bình thường
-    Thêm trường: ngày bắt đầu, ngày kết thúc, số tiền mục tiêu
     Sửa phương thức:
     1. Không cho rút tiền ra
     2. Tất toán:
         - Rút ra toàn bộ số tiền hiện có - ghi nhận internal transaction
         - Ghi nhận lãi là thu nhập
     """
-    def withdraw_all(self):
+    def withdraw(self):
         # tất toán / rút tiền
-        # mở wizard cho nhập số tiền lãi (default=target-amount), chọn tài khoản nhận tiền
-        # Create 2 transactions:
-        # 1. Internal transaction: amount = số tiền đã gửi, type = internal
-        # 2. Income: amount = số lãi nhập vào
+        # mở wizard cho nhập tổng số tiền (default=target), chọn tài khoản nhận tiền
+        # tạo 1 bút toán internal, 1 bút toán income
         pass
 
-    def deposit(self):
-        # gửi tiền
-        pass
-
-    # Methods đối với tài khoản đầu tư
-    """Tài khoản đầu tư
-    Thêm trường: total, liquid_amount, asset_amount, start_date, amount_profit, rate_profit, rate_profit_per_year
-        total: số tiền hiện tại, amount: số tiền tươi nạp vào
-        total = liquid_amount + asset_amount
-        amount_profit = total - amount
-        rate_profit = amount_profit / amount * 100%
-        rate_profit_per_year: chuyển đổi lợi nhuận theo %/năm
-    Sửa phương thức:
-    1. Thêm điều kiện khi rút tiền ra: không được rút quá liquid_amount
-    """
-    @api.depends('amount', 'liquid_amount', 'asset_amount')
-    def _compute_money(self):
+    @api.depends('amount', 'amount_now')
+    def _compute_rate(self):
         for rec in self:
             if rec.type == 'invest':
-                rec.total = rec.liquid_amount + rec.asset_amount
                 if rec.amount == 0:
-                    rec.rate_profit = 0
+                    rec.rate = 0
                 else:
-                    rec.rate_profit = (rec.total - rec.amount) / rec.amount
-            else:
-                rec.total = rec.amount
-                rec.rate_profit = None
-        pass
+                    rec.rate = (rec.amount_now - rec.amount) / rec.amount
 
-    def withdraw(self):
-        # rút tiền
-        # mở wizard cho nhập số tiền muốn rút, chọn tài khoản nhận tiền
-        # số tiền rút được < liquid_amount
-        pass
