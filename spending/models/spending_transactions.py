@@ -3,6 +3,7 @@
 
 import logging
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
 
 
 _logger = logging.getLogger(__name__)
@@ -22,3 +23,11 @@ class Transactions(models.Model):
     to_account = fields.Many2one('spending.accounts')
     note = fields.Text()
     user_id = fields.Many2one('res.users', default=lambda self: self.env.user)
+
+    @api.constrains('type', 'from_account', 'to_account')
+    def _validate_account(self):
+        for rec in self:
+            if rec.type == 'spend' and rec.to_account:
+                raise UserError(_("Spending transactions don't have account to!"))
+            if rec.type == 'income' and rec.from_account:
+                raise UserError(_("Incoming transactions don't have account from!"))
